@@ -1,9 +1,11 @@
-package com.example.githubuser;
+package com.example.githubuser.ui.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.githubuser.R;
+import com.example.githubuser.ui.base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
