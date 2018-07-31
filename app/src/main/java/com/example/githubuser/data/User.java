@@ -1,8 +1,11 @@
 package com.example.githubuser.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
     @SerializedName("login")
     private String name;
     private int id;
@@ -36,6 +39,39 @@ public class User {
     private String type;
     @SerializedName("site_admin")
     private boolean isSiteAdmin;
+
+    protected User(Parcel in) {
+        name = in.readString();
+        id = in.readInt();
+        nodeId = in.readString();
+        avatarUrl = in.readString();
+        gravatarId = in.readString();
+        url = in.readString();
+        htmlUrl = in.readString();
+        followersUrl = in.readString();
+        followingUrl = in.readString();
+        gistsUrl = in.readString();
+        starredUrl = in.readString();
+        subscriptionsUrl = in.readString();
+        organizationsUrl = in.readString();
+        reposUrl = in.readString();
+        eventsUrl = in.readString();
+        receivedEventsUrl = in.readString();
+        type = in.readString();
+        isSiteAdmin = in.readByte() != 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -179,5 +215,32 @@ public class User {
 
     public void setSiteAdmin(boolean siteAdmin) {
         isSiteAdmin = siteAdmin;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeInt(id);
+        parcel.writeString(nodeId);
+        parcel.writeString(avatarUrl);
+        parcel.writeString(gravatarId);
+        parcel.writeString(url);
+        parcel.writeString(htmlUrl);
+        parcel.writeString(followersUrl);
+        parcel.writeString(followingUrl);
+        parcel.writeString(gistsUrl);
+        parcel.writeString(starredUrl);
+        parcel.writeString(subscriptionsUrl);
+        parcel.writeString(organizationsUrl);
+        parcel.writeString(reposUrl);
+        parcel.writeString(eventsUrl);
+        parcel.writeString(receivedEventsUrl);
+        parcel.writeString(type);
+        parcel.writeByte((byte) (isSiteAdmin ? 1 : 0));
     }
 }
