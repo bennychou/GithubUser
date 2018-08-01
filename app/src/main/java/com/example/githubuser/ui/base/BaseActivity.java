@@ -5,6 +5,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
@@ -38,5 +39,14 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
 		fragmentManager.beginTransaction()
 				.add(containerId, fragment)
 				.commit();
+	}
+
+	protected final void replaceFragment(@IdRes int containerId, Fragment fragment) {
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+		transaction.replace(containerId, fragment);
+		transaction.addToBackStack(null);
+
+		transaction.commit();
 	}
 }

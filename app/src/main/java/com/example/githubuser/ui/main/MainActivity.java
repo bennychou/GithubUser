@@ -10,6 +10,7 @@ import com.example.githubuser.R;
 import com.example.githubuser.data.User;
 import com.example.githubuser.network.GithubApi;
 import com.example.githubuser.ui.base.BaseActivity;
+import com.example.githubuser.ui.detail.view.DetailFragment;
 import com.example.githubuser.ui.main.view.MainFragment;
 import com.example.githubuser.ui.main.view.MainFragmentListener;
 
@@ -56,6 +57,7 @@ public class MainActivity extends BaseActivity implements MainFragmentListener {
 
 	@Override
 	public void showDetails() {
-
+		Log.i("TEST", "Show detail");
+		replaceFragment(R.id.fragment_container, new DetailFragment());
 	}
 }

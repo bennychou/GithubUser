@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements MainUserAdapter.UserListListener{
     public static final String USERS = "USERS";
 
     List<User> users;
@@ -63,6 +63,12 @@ public class MainFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mainUserAdapter = new MainUserAdapter(activityContext, users);
+        mainUserAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mainUserAdapter);
+    }
+
+    @Override
+    public void onItemClicked(User user) {
+        listener.showDetails();
     }
 }
