@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +29,10 @@ import butterknife.BindView;
 
 public class MainFragment extends BaseViewFragment<MainPresenter>
         implements MainUserAdapter.UserListListener, MainView {
+	@BindView(R.id.swipe_refresh)
+	SwipeRefreshLayout swipeRefresh;
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     private MainUserAdapter mainUserAdapter;
@@ -68,6 +71,9 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
     }
 
     private void setupRecyclerView() {
+		swipeRefresh.setOnRefreshListener(() -> {
+			presenter.onRefresh();
+		});
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -89,7 +95,7 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
 
     @Override
     public void setRefreshing(boolean active) {
-
+		swipeRefresh.setRefreshing(active);
     }
 
     @Override

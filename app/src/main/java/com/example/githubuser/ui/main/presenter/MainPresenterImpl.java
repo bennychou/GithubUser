@@ -39,7 +39,11 @@ public class MainPresenterImpl extends BasePresenter<MainView> implements MainPr
 				.subscribe(users -> {
 					view.setRefreshing(false);
 					view.updateUsers(users);
-				}, throwable -> Log.e("Error", throwable.toString()))
+				}, throwable -> {
+					view.setRefreshing(false);
+					view.showErrorMessage(throwable.toString());
+					Log.e("Error", throwable.toString());
+				})
 		);
 	}
 
