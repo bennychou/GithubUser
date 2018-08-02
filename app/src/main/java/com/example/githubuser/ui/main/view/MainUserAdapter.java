@@ -3,6 +3,7 @@ package com.example.githubuser.ui.main.view;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,7 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_user, viewGroup, false);
-        final ViewHolder viewHolder = new ViewHolder(view);
-        view.setOnClickListener(v -> userListListener.onItemClicked(users.get(i)));
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -45,6 +44,10 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
         Picasso.get().load(user.getAvatarUrl()).into(viewHolder.icon);
         viewHolder.name.setText(user.getName());
         viewHolder.type.setText(user.getType());
+        viewHolder.itemView.setOnClickListener(v -> {
+            if (userListListener != null)
+                userListListener.onItemClicked(users.get(i));
+        });
     }
 
     void updateList(@NonNull final List<User> users) {
@@ -62,6 +65,8 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
+
         @BindView(R.id.icon)
         ImageView icon;
 
@@ -74,6 +79,7 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
         }
     }
 }

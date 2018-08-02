@@ -11,6 +11,4 @@ public interface MainView extends BaseView {
 	void setRefreshing(boolean active);
 
 	void showErrorMessage(String errorMessage);
-
-	void showUserDetail(User user);
 }

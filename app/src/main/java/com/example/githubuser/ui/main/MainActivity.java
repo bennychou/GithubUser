@@ -25,22 +25,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements MainFragmentListener {
+	public static final String USER_KEY = "USER_KEY";
+
+	public User detailUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		if (savedInstanceState != null)
+			detailUser = savedInstanceState.getParcelable(USER_KEY);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		if (findFragmentById(R.id.fragment_container) == null)
 			addFragment(R.id.fragment_container, MainFragment.newInstance());
-
-//		if (savedInstanceState == null) {
-//			addFragment(R.id.fragment_container, new MainFragment());
-//		}
 	}
 
 	@Override
-	public void showDetails() {
-		replaceFragment(R.id.fragment_container, new DetailFragment());
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelable(USER_KEY, detailUser);
+	}
+
+	@Override
+	public void showDetails(User user) {
+		this.detailUser = user;
+		replaceFragment(R.id.fragment_container, DetailFragment.newInstance());
 	}
 }

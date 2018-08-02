@@ -10,9 +10,15 @@ import android.view.ViewGroup;
 import com.example.githubuser.R;
 import com.example.githubuser.ui.base.view.BaseViewFragment;
 import com.example.githubuser.ui.detail.presenter.DetailPresenter;
+import com.example.githubuser.ui.main.view.MainFragment;
 
 public class DetailFragment extends BaseViewFragment<DetailPresenter>
 		implements DetailView {
+
+	@NonNull
+	public static DetailFragment newInstance() {
+		return new DetailFragment();
+	}
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

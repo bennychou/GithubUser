@@ -29,9 +29,6 @@ import butterknife.BindView;
 public class MainFragment extends BaseViewFragment<MainPresenter>
         implements MainUserAdapter.UserListListener, MainView {
 
-    @Inject
-    MainFragmentListener listener;
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -81,7 +78,7 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
 
     @Override
     public void onItemClicked(User user) {
-        listener.showDetails();
+        presenter.onItemClicked(user);
     }
 
     @Override
@@ -97,11 +94,6 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
 
     @Override
     public void showErrorMessage(String errorMessage) {
-
-    }
-
-    @Override
-    public void showUserDetail(User user) {
 
     }
 }

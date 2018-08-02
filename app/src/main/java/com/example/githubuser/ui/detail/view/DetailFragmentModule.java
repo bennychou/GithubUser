@@ -5,8 +5,7 @@ import android.support.v4.app.Fragment;
 import com.example.githubuser.inject.PerFragment;
 import com.example.githubuser.ui.base.view.BaseFragmentModule;
 import com.example.githubuser.ui.detail.presenter.DetailPresenterModule;
-import com.example.githubuser.ui.main.view.MainFragment;
-import com.example.githubuser.ui.main.view.MainView;
+import com.example.githubuser.ui.detail.presenter.DetailProviderModule;
 
 import javax.inject.Named;
 
@@ -15,7 +14,8 @@ import dagger.Module;
 
 @Module(includes = {
 		BaseFragmentModule.class,
-		DetailPresenterModule.class
+		DetailPresenterModule.class,
+		DetailProviderModule.class
 })
 public abstract class DetailFragmentModule {
 	@Binds
