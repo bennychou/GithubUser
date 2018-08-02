@@ -65,7 +65,6 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 
 	@Override
 	public void onLoading() {
-		userRepository.getUserProfile(user.getName());
-		userRepository.getUserEvents(user.getName());
+		userRepository.getUserProfileAndEvent(user.getName());
 	}
 }

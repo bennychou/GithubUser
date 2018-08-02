@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">GithubUser</string>
-    <string name="admin">Admin: </string>
+    <string name="admin">Admin:</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="company">Company:</string>
+    <string name="blog">Blog:</string>
+    <string name="location">Location:</string>
+    <string name="email">Email:</string>
+    <string name="followers">Followers:</string>
+    <string name="following">Following:</string>
 
     <string name="repo">Repository</string>
     <string name="public_repo">Public:</string>

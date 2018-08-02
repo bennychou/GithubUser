@@ -66,8 +66,17 @@ public class UserRepository {
 		return userProfileObservable.toFlowable(BackpressureStrategy.LATEST);
 	}
 
+	public void getUserProfileAndEvent(String name) {
+		if (!(cachedUserProfile != null && name.equals(cachedUserProfile.getLogin()))) {
+			cachedUserProfile = null;
+			cachedUserEvents = null;
+		}
+		getUserProfile(name);
+		getUserEvents(name);
+	}
+
 	public void getUserProfile(String name) {
-		if (cachedUserProfile != null && cachedUserProfile.getLogin().equals(name)) {
+		if (cachedUserProfile != null) {
 			userProfileObservable.onNext(cachedUserProfile);
 			return;
 		}

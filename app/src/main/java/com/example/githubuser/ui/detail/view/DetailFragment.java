@@ -32,14 +32,29 @@ public class DetailFragment extends BaseViewFragment<DetailPresenter>
 	@BindView(R.id.icon)
 	ImageView icon;
 
+	@BindView(R.id.id)
+	TextView id;
+
 	@BindView(R.id.name)
 	TextView name;
 
-	@BindView(R.id.type)
-	TextView type;
+	@BindView(R.id.company)
+	TextView company;
 
-	@BindView(R.id.admin)
-	TextView admin;
+	@BindView(R.id.location)
+	TextView location;
+
+	@BindView(R.id.email)
+	TextView email;
+
+	@BindView(R.id.blog)
+	TextView blog;
+
+	@BindView(R.id.followers)
+	TextView followers;
+
+	@BindView(R.id.following)
+	TextView following;
 
 	@BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -93,14 +108,18 @@ public class DetailFragment extends BaseViewFragment<DetailPresenter>
 	@Override
 	public void setUserProfile(UserProfile userProfile) {
 		Picasso.get().load(userProfile.getAvatarUrl()).into(icon);
+		id.setText(userProfile.getLogin());
 		name.setText(userProfile.getName());
-		type.setText(userProfile.getType());
-		admin.setText(userProfile.isSiteAdmin() ? getText(R.string.yes) : getText(R.string.no));
+		company.setText(userProfile.getCompany());
+		blog.setText(userProfile.getBlog());
+		location.setText(userProfile.getLocation());
+		email.setText(userProfile.getEmail());
+		followers.setText(Integer.toString(userProfile.getFollowers()));
+		following.setText(Integer.toString(userProfile.getFollowing()));
 	}
 
 	@Override
 	public void updateUserEvents(List<UserEvent> userEvents) {
-		Log.i("TEST", "Event: " + userEvents.size());
         detailUserEventAdapter.updateList(userEvents);
 	}
 }
