@@ -19,11 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHolder> {
-    private Context context;
     private List<User> users;
     private UserListListener userListListener;
-    public MainUserAdapter(Context context, List<User> users) {
-        this.context = context;
+    public MainUserAdapter(List<User> users) {
         this.users = users;
     }
 
@@ -34,11 +32,11 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_user, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(v -> userListListener.onItemClicked(users.get(i)));
-        return new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -47,6 +45,11 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapter.ViewHo
         Picasso.get().load(user.getAvatarUrl()).into(viewHolder.icon);
         viewHolder.name.setText(user.getName());
         viewHolder.type.setText(user.getType());
+    }
+
+    void updateList(@NonNull final List<User> users) {
+        this.users = users;
+        notifyDataSetChanged();
     }
 
     interface UserListListener {

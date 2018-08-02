@@ -1,5 +1,7 @@
 package com.example.githubuser.network;
 
+import com.example.githubuser.data.UserRepository;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,5 +26,11 @@ public class NetworkModule {
     @Provides
     public GithubApi provideGithubApi(Retrofit retrofit) {
         return retrofit.create(GithubApi.class);
+    }
+
+    @Singleton
+    @Provides
+    public UserRepository provideUserRepository(GithubApi githubApi) {
+        return new UserRepository(githubApi);
     }
 }

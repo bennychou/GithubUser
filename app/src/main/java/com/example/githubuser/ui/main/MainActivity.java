@@ -35,23 +35,7 @@ public class MainActivity extends BaseActivity implements MainFragmentListener {
 		setContentView(R.layout.activity_main);
 
 		if (savedInstanceState == null) {
-			Call<List<User>> call = githubApi.getUsers();
-			call.enqueue(new Callback<List<User>>() {
-				@Override
-				public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-					Log.i("TEST", "User: " + response.body().get(0).getName());
-					MainFragment mainFragment = new MainFragment();
-					Bundle extras = new Bundle();
-					extras.putParcelableArrayList(MainFragment.USERS, (ArrayList<? extends Parcelable>) response.body());
-					mainFragment.setArguments(extras);
-					addFragment(R.id.fragment_container, mainFragment);
-				}
-
-				@Override
-				public void onFailure(Call<List<User>> call, Throwable t) {
-
-				}
-			});
+			addFragment(R.id.fragment_container, new MainFragment());
 		}
 	}
 
