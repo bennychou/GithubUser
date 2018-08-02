@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.githubuser.data.User;
+import com.example.githubuser.data.entity.User;
 import com.example.githubuser.data.UserRepository;
 import com.example.githubuser.inject.PerFragment;
 import com.example.githubuser.ui.base.presenter.BasePresenter;

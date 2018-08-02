@@ -1,6 +1,6 @@
 package com.example.githubuser.ui.main.view;
 
-import com.example.githubuser.data.User;
+import com.example.githubuser.data.entity.User;
 import com.example.githubuser.ui.base.view.BaseView;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.githubuser.data;
+package com.example.githubuser.data.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

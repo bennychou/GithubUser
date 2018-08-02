@@ -1,14 +1,10 @@
 package com.example.githubuser.data;
 
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
-
-import com.example.githubuser.R;
+import com.example.githubuser.data.entity.User;
+import com.example.githubuser.data.entity.UserEvent;
+import com.example.githubuser.data.entity.UserProfile;
 import com.example.githubuser.network.GithubApi;
-import com.example.githubuser.ui.main.view.MainFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,11 +21,12 @@ public class UserRepository {
 	private final GithubApi githubApi;
 
 	private PublishSubject<List<User>> userObservable = PublishSubject.create();
+	private PublishSubject<UserProfile> userProfileObservable = PublishSubject.create();
+	private PublishSubject<List<UserEvent>> userEventObservable = PublishSubject.create();
 
 	private List<User> cachedUsers;
-
-	private boolean cacheIsDirty = false;
-	private boolean firstTime = true;
+	private UserProfile cachedUserProfile;
+	private List<UserEvent> cachedUserEvents;
 
 	@Inject
 	public UserRepository(GithubApi githubApi) {
@@ -41,30 +38,85 @@ public class UserRepository {
 	}
 
 	public void getUsers() {
-		if (cachedUsers != null && !cacheIsDirty) {
+		if (cachedUsers != null) {
 			userObservable.onNext(cachedUsers);
 			return;
 		}
 
-		if (cacheIsDirty || firstTime) {
-			firstTime = false;
-			Call<List<User>> call = githubApi.getUsers();
-			call.enqueue(new Callback<List<User>>() {
-				@Override
-				public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-					cachedUsers = response.body();
-					userObservable.onNext(cachedUsers);
-				}
+		Call<List<User>> call = githubApi.getUsers();
+		call.enqueue(new Callback<List<User>>() {
+			@Override
+			public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+				cachedUsers = response.body();
+				userObservable.onNext(cachedUsers);
+			}
 
-				@Override
-				public void onFailure(Call<List<User>> call, Throwable t) {
-					userObservable.onError(t);
-				}
-			});
-		}
+			@Override
+			public void onFailure(Call<List<User>> call, Throwable t) {
+				userObservable.onError(t);
+			}
+		});
 	}
 
 	public void refresh() {
-		cacheIsDirty = true;
+		cachedUsers = null;
+	}
+
+	public Flowable<UserProfile> userProfile() {
+		return userProfileObservable.toFlowable(BackpressureStrategy.LATEST);
+	}
+
+	public void getUserProfile(String name) {
+		if (cachedUserProfile != null) {
+			userProfileObservable.onNext(cachedUserProfile);
+			return;
+		}
+
+		Call<UserProfile> call = githubApi.getUserProfile(name);
+		call.enqueue(new Callback<UserProfile>() {
+			@Override
+			public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+				cachedUserProfile = response.body();
+				userProfileObservable.onNext(cachedUserProfile);
+			}
+
+			@Override
+			public void onFailure(Call<UserProfile> call, Throwable t) {
+				userProfileObservable.onError(t);
+			}
+		});
+	}
+
+	public void refreshUserProfile() {
+		cachedUserProfile = null;
+	}
+
+	public Flowable<List<UserEvent>> userEvents() {
+		return userEventObservable.toFlowable(BackpressureStrategy.LATEST);
+	}
+
+	public void getUserEvents(String name) {
+		if (cachedUserEvents != null) {
+			userEventObservable.onNext(cachedUserEvents);
+			return;
+		}
+
+		Call<List<UserEvent>> call = githubApi.getUserEvents(name);
+		call.enqueue(new Callback<List<UserEvent>>() {
+			@Override
+			public void onResponse(Call<List<UserEvent>> call, Response<List<UserEvent>> response) {
+				cachedUserEvents = response.body();
+				userEventObservable.onNext(cachedUserEvents);
+			}
+
+			@Override
+			public void onFailure(Call<List<UserEvent>> call, Throwable t) {
+				userEventObservable.onError(t);
+			}
+		});
+	}
+
+	public void refreshUserEvents() {
+		cachedUserEvents = null;
 	}
 }
