@@ -37,6 +37,11 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
 
     private MainUserAdapter mainUserAdapter;
 
+    @NonNull
+    public static MainFragment newInstance() {
+        return new MainFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

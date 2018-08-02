@@ -41,6 +41,10 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
 				.commit();
 	}
 
+	protected final Fragment findFragmentById(@IdRes int containerId) {
+		return fragmentManager.findFragmentById(containerId);
+	}
+
 	protected final void replaceFragment(@IdRes int containerId, Fragment fragment) {
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 

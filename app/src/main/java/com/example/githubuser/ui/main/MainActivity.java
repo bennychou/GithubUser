@@ -26,22 +26,21 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements MainFragmentListener {
 
-	@Inject
-	GithubApi githubApi;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (savedInstanceState == null) {
-			addFragment(R.id.fragment_container, new MainFragment());
-		}
+		if (findFragmentById(R.id.fragment_container) == null)
+			addFragment(R.id.fragment_container, MainFragment.newInstance());
+
+//		if (savedInstanceState == null) {
+//			addFragment(R.id.fragment_container, new MainFragment());
+//		}
 	}
 
 	@Override
 	public void showDetails() {
-		Log.i("TEST", "Show detail");
 		replaceFragment(R.id.fragment_container, new DetailFragment());
 	}
 }
