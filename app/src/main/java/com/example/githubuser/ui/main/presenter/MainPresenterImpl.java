@@ -22,7 +22,7 @@ public class MainPresenterImpl extends BasePresenter<MainView> implements MainPr
 	private CompositeDisposable subscriptions = new CompositeDisposable();
 
 	@Inject
-	public MainPresenterImpl(MainView view, UserRepository userRepository) {
+	protected MainPresenterImpl(MainView view, UserRepository userRepository) {
 		super(view);
 		this.userRepository = userRepository;
 	}

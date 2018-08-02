@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.githubuser.R;
-import com.example.githubuser.ui.base.view.BaseFragment;
+import com.example.githubuser.ui.base.view.BaseViewFragment;
+import com.example.githubuser.ui.detail.presenter.DetailPresenter;
 
-public class DetailFragment extends BaseFragment {
+public class DetailFragment extends BaseViewFragment<DetailPresenter>
+		implements DetailView {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
