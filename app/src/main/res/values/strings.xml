@@ -3,4 +3,7 @@
     <string name="admin">Admin: </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="repo">Repository</string>
+    <string name="public_repo">Public:</string>
 </resources>

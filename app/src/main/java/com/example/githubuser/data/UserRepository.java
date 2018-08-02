@@ -67,7 +67,7 @@ public class UserRepository {
 	}
 
 	public void getUserProfile(String name) {
-		if (cachedUserProfile != null) {
+		if (cachedUserProfile != null && cachedUserProfile.getLogin().equals(name)) {
 			userProfileObservable.onNext(cachedUserProfile);
 			return;
 		}

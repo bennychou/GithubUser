@@ -43,17 +43,29 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 					Log.e("Error", throwable.toString());
 				})
 		);
+
+		subscriptions.add(userRepository.userEvents()
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribe(userEvents -> {
+//					view.setRefreshing(false);
+							view.updateUserEvents(userEvents);
+						}, throwable -> {
+//					view.setRefreshing(false);
+//					view.showErrorMessage(throwable.toString());
+							Log.e("Error", throwable.toString());
+						})
+		);
 	}
 
 	@Override
 	public void onEnd() {
 		super.onEnd();
 		subscriptions.clear();
-		userRepository.refreshUserProfile();
 	}
 
 	@Override
 	public void onLoading() {
 		userRepository.getUserProfile(user.getName());
+		userRepository.getUserEvents(user.getName());
 	}
 }

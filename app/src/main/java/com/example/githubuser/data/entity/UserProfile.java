@@ -34,6 +34,7 @@ public class UserProfile {
 //    "following": 9,
 //    "created_at": "2011-01-25T18:44:36Z",
 //    "updated_at": "2018-07-23T04:10:34Z"
+    private String login;
     @SerializedName("avatar_url")
     private String avatarUrl;
     private String name;
@@ -52,6 +53,14 @@ public class UserProfile {
     private int publicGists;
     private int followers;
     private int following;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     public String getAvatarUrl() {
         return avatarUrl;

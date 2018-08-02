@@ -68,7 +68,7 @@ public class MainFragment extends BaseViewFragment<MainPresenter>
 			presenter.onRefresh();
 		});
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
 
         mainUserAdapter = new MainUserAdapter(new ArrayList<>());
         mainUserAdapter.setOnItemClickListener(this);
