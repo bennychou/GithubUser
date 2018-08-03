@@ -35,25 +35,34 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 		subscriptions.add(userRepository.userProfile()
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(userProfile -> {
-//					view.setRefreshing(false);
-					view.setUserProfile(userProfile);
+					view.setRefreshingUserProfile(false);
+					if (userRepository.isValidUserProfile(userProfile))
+						view.setUserProfile(userProfile);
+					else {
+						view.setRetryLayout(true);
+						view.showErrorMessage();
+					}
 				}, throwable -> {
-//					view.setRefreshing(false);
-//					view.showErrorMessage(throwable.toString());
+					view.setRefreshingUserProfile(false);
+					view.showErrorMessage();
 					Log.e("Error", throwable.toString());
 				})
 		);
 
 		subscriptions.add(userRepository.userEvents()
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe(userEvents -> {
-//					view.setRefreshing(false);
-							view.updateUserEvents(userEvents);
-						}, throwable -> {
-//					view.setRefreshing(false);
-//					view.showErrorMessage(throwable.toString());
-							Log.e("Error", throwable.toString());
-						})
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(userEvents -> {
+					view.setRefreshingUserEvents(false);
+					if (userRepository.isValidUserEvents(userEvents))
+						view.updateUserEvents(userEvents);
+					else {
+						view.showErrorMessage();
+					}
+				}, throwable -> {
+					view.setRefreshingUserEvents(false);
+					view.showErrorMessage();
+					Log.e("Error", throwable.toString());
+				})
 		);
 	}
 
@@ -65,6 +74,22 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 
 	@Override
 	public void onLoading() {
+		view.setRefreshingUserProfile(true);
 		userRepository.getUserProfileAndEvent(user.getName());
+	}
+
+	@Override
+	public void onRefreshUserProfileAndEvents() {
+		view.setRefreshingUserProfile(true);
+		userRepository.refreshUserProfile();
+		userRepository.refreshUserEvents();
+		userRepository.getUserProfileAndEvent(user.getName());
+	}
+
+	@Override
+	public void onRefreshUserEvents() {
+		view.setRefreshingUserEvents(true);
+		userRepository.refreshUserEvents();
+		userRepository.getUserEvents(user.getName());
 	}
 }

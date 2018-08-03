@@ -4,4 +4,6 @@ import com.example.githubuser.ui.base.presenter.Presenter;
 
 public interface DetailPresenter extends Presenter {
     void onLoading();
+    void onRefreshUserProfileAndEvents();
+    void onRefreshUserEvents();
 }

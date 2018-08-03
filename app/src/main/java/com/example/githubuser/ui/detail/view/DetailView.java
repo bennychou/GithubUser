@@ -10,5 +10,13 @@ import java.util.List;
 public interface DetailView extends BaseView {
     void setUserProfile(UserProfile userProfile);
 
+    void setRefreshingUserProfile(boolean active);
+
+    void setRetryLayout(boolean active);
+
+    void setRefreshingUserEvents(boolean active);
+
     void updateUserEvents(List<UserEvent> userEvents);
+
+    void showErrorMessage();
 }

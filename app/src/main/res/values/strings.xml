@@ -5,6 +5,7 @@
     <string name="no">No</string>
     <string name="retry">Retry</string>
     <string name="error_happened">Some error happened!</string>
+    <string name="no_event">No event!</string>
 
     <string name="company">Company:</string>
     <string name="blog">Blog:</string>
