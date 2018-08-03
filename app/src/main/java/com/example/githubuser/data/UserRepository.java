@@ -17,6 +17,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,9 +26,9 @@ public class UserRepository {
 
 	private final GithubApi githubApi;
 
-	private PublishSubject<List<User>> userObservable = PublishSubject.create();
-	private PublishSubject<UserProfile> userProfileObservable = PublishSubject.create();
-	private PublishSubject<List<UserEvent>> userEventObservable = PublishSubject.create();
+	private Subject<List<User>> userObservable = PublishSubject.create();
+	private Subject<UserProfile> userProfileObservable = PublishSubject.create();
+	private Subject<List<UserEvent>> userEventObservable = PublishSubject.create();
 
 	private List<User> cachedUsers;
 	private UserProfile cachedUserProfile;

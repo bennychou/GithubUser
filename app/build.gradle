@@ -34,7 +34,13 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    testImplementation 'org.mockito:mockito-core:2.18.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "org.robolectric:shadows-framework:3.8"
+    testImplementation "org.robolectric:shadows-playservices:3.8"
+    testImplementation "org.robolectric:shadows-multidex:3.8"
+    testImplementation "org.robolectric:shadows-supportv4:3.8"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
