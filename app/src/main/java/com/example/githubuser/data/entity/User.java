@@ -40,6 +40,10 @@ public class User implements Parcelable {
     @SerializedName("site_admin")
     private boolean isSiteAdmin;
 
+    public User() {
+
+    }
+
     protected User(Parcel in) {
         name = in.readString();
         id = in.readInt();

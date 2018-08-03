@@ -38,7 +38,10 @@ public class MainPresenterImpl extends BasePresenter<MainView> implements MainPr
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(users -> {
 					view.setRefreshing(false);
-					view.updateUsers(users);
+					if (userRepository.isValidUsers(users))
+						view.updateUsers(users);
+					else
+						view.showErrorMessage("");
 				}, throwable -> {
 					view.setRefreshing(false);
 					view.showErrorMessage(throwable.toString());

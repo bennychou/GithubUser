@@ -5,12 +5,17 @@ import com.example.githubuser.data.entity.UserEvent;
 import com.example.githubuser.data.entity.UserProfile;
 import com.example.githubuser.network.GithubApi;
 
+import org.reactivestreams.Publisher;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +42,14 @@ public class UserRepository {
 		return userObservable.toFlowable(BackpressureStrategy.LATEST);
 	}
 
+	private List<User> createErrorUsers() {
+		User user = new User();
+		List<User> users = new ArrayList<>();
+		users.add(user);
+
+		return users;
+	}
+
 	public void getUsers() {
 		if (cachedUsers != null) {
 			userObservable.onNext(cachedUsers);
@@ -47,15 +60,30 @@ public class UserRepository {
 		call.enqueue(new Callback<List<User>>() {
 			@Override
 			public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+				if (response.body() == null) {
+					userObservable.onNext(createErrorUsers());
+					return;
+				}
 				cachedUsers = response.body();
 				userObservable.onNext(cachedUsers);
 			}
 
 			@Override
 			public void onFailure(Call<List<User>> call, Throwable t) {
-				userObservable.onError(t);
+				userObservable.onNext(createErrorUsers());
 			}
 		});
+	}
+
+	public boolean isValidUsers(List<User> users) {
+		if (users == null)
+			return false;
+		if (users.isEmpty())
+			return true;
+		if (users.size() == 1 && users.get(0).getName() == null)
+			return false;
+
+		return true;
 	}
 
 	public void refresh() {
@@ -64,6 +92,12 @@ public class UserRepository {
 
 	public Flowable<UserProfile> userProfile() {
 		return userProfileObservable.toFlowable(BackpressureStrategy.LATEST);
+	}
+
+	private UserProfile createErrorUserProfile() {
+		UserProfile userProfile = new UserProfile();
+
+		return userProfile;
 	}
 
 	public void getUserProfileAndEvent(String name) {
@@ -85,15 +119,28 @@ public class UserRepository {
 		call.enqueue(new Callback<UserProfile>() {
 			@Override
 			public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+				if (response.body() == null) {
+					userProfileObservable.onNext(createErrorUserProfile());
+					return;
+				}
 				cachedUserProfile = response.body();
 				userProfileObservable.onNext(cachedUserProfile);
 			}
 
 			@Override
 			public void onFailure(Call<UserProfile> call, Throwable t) {
-				userProfileObservable.onError(t);
+				userProfileObservable.onNext(createErrorUserProfile());
 			}
 		});
+	}
+
+	public boolean isValidUserProfile(UserProfile userProfile) {
+		if (userProfile == null)
+			return false;
+		if (userProfile.getLogin() == null)
+			return false;
+
+		return true;
 	}
 
 	public void refreshUserProfile() {
@@ -102,6 +149,14 @@ public class UserRepository {
 
 	public Flowable<List<UserEvent>> userEvents() {
 		return userEventObservable.toFlowable(BackpressureStrategy.LATEST);
+	}
+
+	private List<UserEvent> createErrorEvents() {
+		UserEvent userEvent = new UserEvent();
+		List<UserEvent> userEvents = new ArrayList<>();
+		userEvents.add(userEvent);
+
+		return userEvents;
 	}
 
 	public void getUserEvents(String name) {
@@ -114,15 +169,30 @@ public class UserRepository {
 		call.enqueue(new Callback<List<UserEvent>>() {
 			@Override
 			public void onResponse(Call<List<UserEvent>> call, Response<List<UserEvent>> response) {
+				if (response.body() == null) {
+					userEventObservable.onNext(createErrorEvents());
+					return;
+				}
 				cachedUserEvents = response.body();
 				userEventObservable.onNext(cachedUserEvents);
 			}
 
 			@Override
 			public void onFailure(Call<List<UserEvent>> call, Throwable t) {
-				userEventObservable.onError(t);
+				userEventObservable.onNext(createErrorEvents());
 			}
 		});
+	}
+
+	public boolean isValidUserEvents(List<UserEvent> userEvents) {
+		if (userEvents == null)
+			return false;
+		if (userEvents.isEmpty())
+			return true;
+		if (userEvents.size() == 1 && userEvents.get(0).getId() == null)
+			return false;
+
+		return true;
 	}
 
 	public void refreshUserEvents() {
