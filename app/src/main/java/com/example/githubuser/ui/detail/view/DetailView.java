@@ -14,9 +14,5 @@ public interface DetailView extends BaseView {
 
     void setRetryLayout(boolean active);
 
-    void setRefreshingUserEvents(boolean active);
-
-    void updateUserEvents(List<UserEvent> userEvents);
-
     void showErrorMessage();
 }

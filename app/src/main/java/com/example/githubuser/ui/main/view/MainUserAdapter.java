@@ -65,7 +65,7 @@ public class MainUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ViewHolder) viewHolder).admin.setVisibility(user.isSiteAdmin() ? View.VISIBLE : View.GONE);
             ((ViewHolder) viewHolder).itemView.setOnClickListener(v -> {
                 if (userListListener != null)
-                    userListListener.onItemClicked(users.get(i));
+                    userListListener.onItemClicked(user);
             });
         }
     }
