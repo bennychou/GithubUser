@@ -16,4 +16,7 @@
 
     <string name="repo">Repository</string>
     <string name="public_repo">Public:</string>
+
+    <string name="staff">STAFF</string>
+    <string name="users">Users</string>
 </resources>
