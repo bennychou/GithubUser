@@ -17,15 +17,13 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @PerFragment
 public class DetailPresenterImpl extends BasePresenter<DetailView> implements DetailPresenter {
-	private final User user;
 
 	private final UserRepository userRepository;
 
 	private CompositeDisposable subscriptions = new CompositeDisposable();
 	@Inject
-	protected DetailPresenterImpl(DetailView view, User user, UserRepository userRepository) {
+	protected DetailPresenterImpl(DetailView view, UserRepository userRepository) {
 		super(view);
-		this.user = user;
 		this.userRepository = userRepository;
 	}
 
@@ -59,7 +57,7 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 	@Override
 	public void onLoading() {
 		view.setRefreshingUserProfile(true);
-		userRepository.getUserProfileAndEvent(user.getName());
+		userRepository.getUserProfileAndEvent();
 	}
 
 	@Override
@@ -67,12 +65,12 @@ public class DetailPresenterImpl extends BasePresenter<DetailView> implements De
 		view.setRefreshingUserProfile(true);
 		userRepository.refreshUserProfile();
 		userRepository.refreshUserEvents();
-		userRepository.getUserProfileAndEvent(user.getName());
+		userRepository.getUserProfileAndEvent();
 	}
 
 	@Override
 	public void onRefreshUserEvents() {
 		userRepository.refreshUserEvents();
-		userRepository.getUserEvents(user.getName());
+		userRepository.getUserEvents();
 	}
 }

@@ -30,6 +30,8 @@ public class UserRepository {
 	private Subject<UserProfile> userProfileObservable = PublishSubject.create();
 	private Subject<List<UserEvent>> userEventObservable = PublishSubject.create();
 
+	private User cachedUser;
+
 	private List<User> cachedUsers;
 	private UserProfile cachedUserProfile;
 	private List<UserEvent> cachedUserEvents;
@@ -37,6 +39,14 @@ public class UserRepository {
 	@Inject
 	public UserRepository(GithubApi githubApi) {
 		this.githubApi = githubApi;
+	}
+
+	public User getUser() {
+		return cachedUser;
+	}
+
+	public void setUser(User cachedUser) {
+		this.cachedUser = cachedUser;
 	}
 
 	public Flowable<List<User>> users() {
@@ -101,22 +111,22 @@ public class UserRepository {
 		return userProfile;
 	}
 
-	public void getUserProfileAndEvent(String name) {
-		if (!(cachedUserProfile != null && name.equals(cachedUserProfile.getLogin()))) {
+	public void getUserProfileAndEvent() {
+		if (!(cachedUserProfile != null && cachedUser.getName().equals(cachedUserProfile.getLogin()))) {
 			cachedUserProfile = null;
 			cachedUserEvents = null;
 		}
-		getUserProfile(name);
-		getUserEvents(name);
+		getUserProfile();
+		getUserEvents();
 	}
 
-	public void getUserProfile(String name) {
+	public void getUserProfile() {
 		if (cachedUserProfile != null) {
 			userProfileObservable.onNext(cachedUserProfile);
 			return;
 		}
 
-		Call<UserProfile> call = githubApi.getUserProfile(name);
+		Call<UserProfile> call = githubApi.getUserProfile(cachedUser.getName());
 		call.enqueue(new Callback<UserProfile>() {
 			@Override
 			public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -160,13 +170,13 @@ public class UserRepository {
 		return userEvents;
 	}
 
-	public void getUserEvents(String name) {
+	public void getUserEvents() {
 		if (cachedUserEvents != null) {
 			userEventObservable.onNext(cachedUserEvents);
 			return;
 		}
 
-		Call<List<UserEvent>> call = githubApi.getUserEvents(name);
+		Call<List<UserEvent>> call = githubApi.getUserEvents(cachedUser.getName());
 		call.enqueue(new Callback<List<UserEvent>>() {
 			@Override
 			public void onResponse(Call<List<UserEvent>> call, Response<List<UserEvent>> response) {

@@ -69,7 +69,8 @@ public class MainPresenterImpl extends BasePresenter<MainView> implements MainPr
 
 	@Override
 	public void onItemClicked(User user) {
-		mainFragmentListener.showDetails(user);
+		userRepository.setUser(user);
+		mainFragmentListener.showDetails();
 	}
 
 	private void getUsers() {
